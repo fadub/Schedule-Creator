@@ -1,0 +1,27 @@
+#module-selection-wrapper
+{
+	float: left;
+	width: 20%;
+}
+
+#schedule-wrapper
+{
+	float: left;
+	width: 80%;
+}
+
+body
+{
+	padding: 0;
+	margin: 0;
+}
+
+table
+{
+	width: 100%;
+}
+
+th
+{
+	background-color: #e1e7e8;
+}
