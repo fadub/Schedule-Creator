@@ -16,6 +16,7 @@ const PRACTICAL_PREFIX = "p";
 
 let initializedComponents = false;
 let fileSelect = undefined;
+let loading = undefined;
 
 
 
@@ -407,6 +408,7 @@ function importCSV(file, done) {
 	const fr = new FileReader();
 	fr.addEventListener("load", function(event) {
 		done(event.target.result);
+		loading.style.display = "none";
 	});
 	fr.readAsText(file);
 }
@@ -481,9 +483,15 @@ function updateUIwithModuleList(modules) {
 
 function initializeComponents() {
 	if ((document.readyState === "complete" || document.readyState === "loaded") && !initializedComponents) {
-	
-		// btnImport
+		
+		// loading
+		loading = document.getElementById("loading");
+		
+		// fileSelect
 		fileSelect = document.getElementById("file-select");
+		fileSelect.addEventListener("click", () => {
+			loading.style.display = "inline";
+		});
 		fileSelect.addEventListener("change", (event) => {
 			importCSV(event.target.files[0], (csvRaw) => {
 				let modules = csvToModules(csvRaw);

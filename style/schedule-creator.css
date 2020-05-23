@@ -21,6 +21,12 @@
 	overflow: auto;
 }
 
+#loading
+{
+	color: green;
+	display: none;
+}
+
 #schedule-wrapper
 {
 	position: absolute;
