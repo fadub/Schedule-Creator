@@ -3,6 +3,16 @@ Making (HSR) schedule creation easier for students
 
 ![demo](img/demo.PNG)
 
+## Getting started
+1. download project under 'release'
+2. unzip
+3. open 'schedule-creator.html' with a browser
+4. import a schedule options CSV file (e.g. 'semester3.csv')
+
+**Please note:**
+This web app was only tested with Firefox and does not support small screens like smartphones.
+For the best experience use it on a desktop-computer or laptop in a maximized browser window.
+
 ## Import a schedule options file
 1. ![image of import field](img/import.PNG)
 2. wait until the file is loaded
