@@ -1,6 +1,8 @@
 # Schedule-Creator
 Making (HSR) schedule creation easier for students
 
+![demo](img/demo.PNG)
+
 ## Import a schedule options file
 1. ![image of import field](img/import.PNG)
 2. wait until the file is loaded
