@@ -1,19 +1,42 @@
 #module-selection-wrapper
 {
-	float: left;
-	width: 30%;
+	position: absolute;
+	left: 0;
+	right: 70%;
+	top: 50px;
+	bottom: 0;
+}
+
+#import-csv
+{
+	position: relative;
+	height: 50px;
+}
+
+#module-list
+{
+	position: relative;
+	min-height: 100px;
+	max-height: 90%;
+	overflow: auto;
 }
 
 #schedule-wrapper
 {
-	float: left;
-	width: 70%;
+	position: absolute;
+	left: 30%;
+	right: 0;
+	top: 0;
+	bottom: 0;
 }
 
 body
 {
+	height: 100%;
+	width: 100%;
 	padding: 0;
 	margin: 0;
+	overflow: hidden;
 }
 
 table
