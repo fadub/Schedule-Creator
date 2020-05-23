@@ -16,8 +16,11 @@ You can either use a text-editor or a spreadsheet program (e.g. Microsoft Excel)
 
 * each line represents a module
 * structure:
+
 ```<NAME>, <COLOR>, lecture, [<mo|tu|we|th|fr>, <0-23>, <0-23>, ...], exercise, [<mo|tu|we|th|fr>, <0-23>, <0-23>, ...], practical, [<mo|tu|we|th|fr>, <0-23>, <0-23>, ...],```
+
 * if an event is not continuous and by that has multiple occurrences, use the `+` operator. E.g.:
+
 ```MyModule, green, lecture, mo, 8, 10, +, we, 13, 14```
 
 ### Complete example
