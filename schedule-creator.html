@@ -3,14 +3,17 @@
 	<title>Schedule Creator</title>
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="style/schedule-creator.css">
-	<script src="script/schedule-creator.js"></script>
+	<script src="src/schedule-creator.js"></script>
 </head>
 
 <body>
 	<h1>Schedule Creator</h1>
 	
 	<div id="module-selection-wrapper">
-		<button id="btnImport">Import Options (CSV)</button>
+		<p>Import Options (CSV)</p>
+		<input type="file" id="file-select"></input>
+		<ul id="module-list">
+		</ul>
 	</div>
 
 	<div id="schedule-wrapper">
@@ -23,44 +26,77 @@
 				<th>Thursday</th>
 				<th>Friday</th>
 			</tr>
+			<tr id="r0">
+				<th>00:00 - 01:00</th>
+			</tr>
+			<tr id="r1">
+				<th>01:00 - 02:00</th>
+			</tr>
+			<tr id="r2">
+				<th>02:00 - 03:00</th>
+			</tr>
+			<tr id="r3">
+				<th>03:00 - 04:00</th>
+			</tr>
+			<tr id="r4">
+				<th>04:00 - 05:00</th>
+			</tr>
+			<tr id="r5">
+				<th>05:00 - 06:00</th>
+			</tr>
+			<tr id="r6">
+				<th>06:00 - 07:00</th>
+			</tr>
+			<tr id="r7">
+				<th>07:00 - 08:00</th>
+			</tr>
 			<tr id="r8">
-				<th>08:00</th>
+				<th>08:00 - 09:00</th>
 			</tr>
 			<tr id="r9">
-				<th>09:00</th>
+				<th>09:00 - 10:00</th>
 			</tr>
 			<tr id="r10">
-				<th>10:00</th>
+				<th>10:00 - 11:00</th>
 			</tr>
 			<tr id="r11">
-				<th>11:00</th>
+				<th>11:00 - 12:00</th>
 			</tr>
 			<tr id="r12">
-				<th>12:00</th>
+				<th>12:00 - 13:00</th>
 			</tr>
 			<tr id="r13">
-				<th>13:00</th>
+				<th>13:00 - 14:00</th>
 			</tr>
 			<tr id="r14">
-				<th>14:00</th>
+				<th>14:00 - 15:00</th>
 			</tr>
 			<tr id="r15">
-				<th>15:00</th>
+				<th>15:00 - 16:00</th>
 			</tr>
 			<tr id="r16">
-				<th>16:00</th>
+				<th>16:00 - 17:00</th>
 			</tr>
 			<tr id="r17">
-				<th>17:00</th>
+				<th>17:00 - 18:00</th>
 			</tr>
 			<tr id="r18">
-				<th>18:00</th>
+				<th>18:00 - 19:00</th>
 			</tr>
 			<tr id="r19">
-				<th>19:00</th>
+				<th>19:00 - 20:00</th>
 			</tr>
 			<tr id="r20">
-				<th>20:00</th>
+				<th>20:00 - 21:00</th>
+			</tr>
+			<tr id="r21">
+				<th>21:00 - 22:00</th>
+			</tr>
+			<tr id="r22">
+				<th>22:00 - 23:00</th>
+			</tr>
+			<tr id="r23">
+				<th>23:00 - 00:00</th>
 			</tr>
 		</table>
 	</div>
