@@ -1,16 +1,28 @@
+/**
+ *	schedule-creator.css
+ *		by Fabian Dubacher
+ */
+
+#author
+{
+	position: absolute;
+	top: 35px;
+	left: 50px;
+}
+
 #module-selection-wrapper
 {
 	position: absolute;
 	left: 0;
 	right: 70%;
-	top: 50px;
+	top: 70px;
 	bottom: 0;
 }
 
 #import-csv
 {
 	position: relative;
-	height: 50px;
+	height: 40px;
 }
 
 #module-list
@@ -28,6 +40,11 @@
 	right: 0;
 	top: 0;
 	bottom: 0;
+}
+
+#schedule-options
+{
+	margin-top: 10px;
 }
 
 body
@@ -52,4 +69,14 @@ th
 .bgc-white
 {
 	background-color: white;
+}
+
+.schedule-entry
+{
+	padding: 5px;
+}
+
+.hide
+{
+	display: none;
 }

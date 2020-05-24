@@ -15,7 +15,10 @@ const EXERCISE_PREFIX = "u";
 const PRACTICAL_PREFIX = "p";
 
 let initializedComponents = false;
+let hideEmptyRows = false;
+
 let fileSelect = undefined;
+let cbToggleEmptyRows = undefined;
 
 
 
@@ -31,16 +34,31 @@ function handleException(ex) {
 
 function checkboxHandler(event) {
 	let cb = event.target;
-	let name = cb.getAttribute("entryId");	// it is a name, because the entry can span onto multiple cells and thus needs multiple elements with the same property
+	let name = cb.id;	// it is a name, because the entry can span over multiple cells and by that results in grouped by name elements
+	let displayName = cb.getAttribute("entryDisplayName");
 	
 	if(cb.checked) {
 		let color = cb.getAttribute("entryColor");
 		let day = Number(cb.getAttribute("entryDay"));
 		let tFrom = Number(cb.getAttribute("entryFrom"));
 		let tTo = Number(cb.getAttribute("entryTo"));
-		addEntryToSchedule(name, color, day, tFrom, tTo);
+		addEntryToSchedule(name, displayName, color, day, tFrom, tTo);
 	} else {
 		removeEntryFromSchedule(name);
+	}
+}
+
+function toggleEmptyRowsHandler(show) {
+	if(show) {
+		for(let i = 0; i < 24; ++i) {
+			let rowId = "r" + i;
+			toggleElm(rowId, show);
+		}
+	} else {
+		outter: for(let i = 0; i < 24; ++i) {
+			let rowId = "r" + i;
+			hideRowIfEmpty(rowId);
+		}
 	}
 }
 
@@ -62,6 +80,30 @@ function dayNumToText(dayNum) {
 	}
 	
 	return dayText;
+}
+
+
+function hideRowIfEmpty(rowId) {
+	// check if weekday cells of row are empty and hide if they are empty
+	let cells = document.getElementsByName(rowId + "-wd");
+	for(let i = 0; i < cells.length; ++i) {
+		let cell = cells[i];
+		if(cell.getAttribute("empty") === "false") {
+			return;
+		}
+	}
+	
+	toggleElm(rowId, false);
+}
+
+
+function toggleElm(id, show) {
+	let elm = document.getElementById(id);
+	if(show) {
+		elm.classList.remove("hide");
+	} else {
+		elm.classList.add("hide");
+	}
 }
 
 
@@ -186,7 +228,8 @@ function createModuleFromRaw(rawModule) {
 
 
 function initSchedule() {
-	for(let i = 0; i < 24; ++i) {
+	for(let i = 0; i < 23; ++i) {
+		let name = "r" + i + "-wd";
 		let time;
 		if(i < 9) {
 			time = "0" + i + ":00 - 0" + (i+1) + ":00";
@@ -197,39 +240,34 @@ function initSchedule() {
 		}
 		
 		let row = document.getElementById("r" + i);
-		row.innerHTML = " \
-				<th>" + time + "</th> \
-				<th class=\"bgc-white\"> \
-					<table id=\"tbl-d1t" + i + "\"> \
-					</table> \
-				</th> \
-				<th class=\"bgc-white\"> \
-					<table id=\"tbl-d2t" + i + "\"> \
-					</table> \
-				</th> \
-				<th class=\"bgc-white\"> \
-					<table id=\"tbl-d3t" + i + "\"> \
-					</table> \
-				</th> \
-				<th class=\"bgc-white\"> \
-					<table id=\"tbl-d4t" + i + "\"> \
-					</table> \
-				</th> \
-				<th class=\"bgc-white\"> \
-					<table id=\"tbl-d5t" + i + "\"> \
-					</table> \
-				</th>";
+		
+		for(let j = 1; j < 6; ++j) {
+			let cell = document.createElement("th");
+			cell.classList.add("bgc-white");
+			cell.setAttribute("name", name);
+			cell.setAttribute("empty", "true");
+			row.appendChild(cell);
+			
+			let table = document.createElement("table");
+			table.id = "tbl-d" + j + "t" + i;
+			cell.appendChild(table);
+		}
 	}
 }
 
-function addEntryToSchedule(name, color, day, tFrom, tTo) {
+function addEntryToSchedule(name, displayName, color, day, tFrom, tTo) {
 	for(let i = tFrom; i < tTo; ++i) {
 		let table = document.getElementById("tbl-d" + day + "t" + i);
 		let cell = document.createElement("th");
 		cell.setAttribute("name", name);
-		cell.textContent = name;
+		cell.textContent = displayName;
 		cell.style.backgroundColor = color;
+		cell.classList.add("schedule-entry");
 		table.appendChild(cell);
+		
+		table.parentNode.setAttribute("empty", "false");
+		let rowId = table.parentNode.parentNode.id; 
+		toggleElm(rowId, true);
 	}
 }
 
@@ -237,9 +275,20 @@ function addEntryToSchedule(name, color, day, tFrom, tTo) {
 function removeEntryFromSchedule(name) {
 	let entry = document.getElementsByName(name);
 	let entryLength = entry.length;
+	let table;
 	for(let i = 0; i < entryLength; ++i) {
-		let cell = entry[0];
-		cell.parentNode.removeChild(cell);
+		let cell = entry[0];	
+		table = cell.parentNode;		
+		table.removeChild(cell);
+		
+		if(table.childElementCount === 0) {
+			table.parentNode.setAttribute("empty", "true");
+		}
+		
+		if(hideEmptyRows) {
+			let rowId = table.parentNode.parentNode.id;
+			hideRowIfEmpty(rowId);
+		}
 	}
 }
 
@@ -247,7 +296,7 @@ function removeEntryFromSchedule(name) {
 function addModuleToList(module) {	
 	let list = document.getElementById("module-list");
 	let subList, subElm, subsubList;
-	let idCount;
+	let idCount, partCount;
 	
 	// module
 	let elm = document.createElement("li");
@@ -271,14 +320,19 @@ function addModuleToList(module) {
 	elm.appendChild(subList);
 	
 	idCount = 0;
+	partCount = 1;
 	for(let i = 0; i < module.lTimes.length; ++i) {
 		let time = module.lTimes[i];
 		
 		if(!time.plus) {
 			++idCount;
+			partCount = 1;
+		} else {
+			++partCount;
 		}
 		
-		let entryId = module.name + "-" + LECTURE_PREFIX + idCount;
+		let entryDisplayName = module.name + "-" + LECTURE_PREFIX + idCount;
+		let entryId = entryDisplayName + partCount;
 		let shortName = LECTURE_PREFIX + idCount;
 		
 		let subsubElm = document.createElement("li");
@@ -287,7 +341,7 @@ function addModuleToList(module) {
 		cb.id = entryId;
 		cb.type = "checkbox";
 		cb.addEventListener("input", checkboxHandler);
-		cb.setAttribute("entryId", entryId);
+		cb.setAttribute("entryDisplayName", entryDisplayName);
 		cb.setAttribute("entryColor", module.color);
 		cb.setAttribute("entryDay", time.day);
 		cb.setAttribute("entryFrom", time.tFrom);
@@ -313,23 +367,27 @@ function addModuleToList(module) {
 	elm.appendChild(subList);
 	
 	idCount = 0;
+	partCount = 1;
 	for(let i = 0; i < module.eTimes.length; ++i) {
 		let time = module.eTimes[i];
 		
 		if(!time.plus) {
 			++idCount;
+		}else {
+			++partCount;
 		}
 		
-		let entryId = module.name + "-" + EXERCISE_PREFIX + idCount;
+		let entryDisplayName = module.name + "-" + EXERCISE_PREFIX + idCount;
+		let entryId = entryDisplayName + partCount;
 		let shortName = EXERCISE_PREFIX + idCount;
 		
 		let subsubElm = document.createElement("li");
 		
 		let cb = document.createElement("input");
-		cb.id = module.name;
+		cb.id = entryId;
 		cb.type = "checkbox";
 		cb.addEventListener("input", checkboxHandler);
-		cb.setAttribute("entryId", entryId);
+		cb.setAttribute("entryDisplayName", entryDisplayName);
 		cb.setAttribute("entryColor", module.color);
 		cb.setAttribute("entryDay", time.day);
 		cb.setAttribute("entryFrom", time.tFrom);
@@ -355,23 +413,27 @@ function addModuleToList(module) {
 	elm.appendChild(subList);
 	
 	idCount = 0;
+	partCount = 1;
 	for(let i = 0; i < module.pTimes.length; ++i) {
 		let time = module.pTimes[i];
 		
 		if(!time.plus) {
 			++idCount;
+		} else {
+			++partCount;
 		}
 		
-		let entryId = module.name + "-" + PRACTICAL_PREFIX + idCount;
+		let entryDisplayName = module.name + "-" + PRACTICAL_PREFIX + idCount;
+		let entryId = entryDisplayName + partCount;
 		let shortName = PRACTICAL_PREFIX + idCount;
 		
 		let subsubElm = document.createElement("li");
 		
 		let cb = document.createElement("input");
-		cb.id = module.name;
+		cb.id = entryId;
 		cb.type = "checkbox";
 		cb.addEventListener("input", checkboxHandler);
-		cb.setAttribute("entryId", entryId);
+		cb.setAttribute("entryDisplayName", entryDisplayName);
 		cb.setAttribute("entryColor", module.color);
 		cb.setAttribute("entryDay", time.day);
 		cb.setAttribute("entryFrom", time.tFrom);
@@ -482,13 +544,23 @@ function updateUIwithModuleList(modules) {
 function initializeComponents() {
 	if ((document.readyState === "complete" || document.readyState === "loaded") && !initializedComponents) {
 	
-		// btnImport
+		// fileSelect
 		fileSelect = document.getElementById("file-select");
 		fileSelect.addEventListener("change", (event) => {
 			importCSV(event.target.files[0], (csvRaw) => {
 				let modules = csvToModules(csvRaw);
 				updateUIwithModuleList(modules);
+				toggleElm("schedule-options", true);
 			});
+		});
+		
+		// cbToggleEmptyRows
+		cbToggleEmptyRows = document.getElementById("cb-toggle-empty-rows");
+		cbToggleEmptyRows.checked = true;
+		cbToggleEmptyRows.addEventListener("change", (event) => {
+			if(hideEmptyRows) hideEmptyRows = false;
+			else hideEmptyRows = true;
+			toggleEmptyRowsHandler(event.target.checked);
 		});
 	
 		initializedComponents = true;

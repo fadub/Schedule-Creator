@@ -1,3 +1,9 @@
+<!--
+ 	schedule-creator.html
+ 		by Fabian Dubacher
+ -->
+
+
 <html>
 <head>
 	<title>Schedule Creator</title>
@@ -8,12 +14,13 @@
 
 <body>
 	<h1>Schedule Creator</h1>
+	<span id="author">by Fabian Dubacher</span>
 	
 	<div id="module-selection-wrapper">
-		<div id="import-csv">
-			<p>Import Options (CSV)</p>
-			<input type="file" id="file-select"></input>
-		</div>
+		<fieldset id="import-csv">
+			<legend>Import Options (CSV)</legend>
+			<input id="file-select" type="file" accept=".csv"></input>
+		</fieldset>
 		<ul id="module-list">
 		</ul>
 	</div>
@@ -101,6 +108,11 @@
 				<th>23:00 - 00:00</th>
 			</tr>
 		</table>
+		<fieldset id="schedule-options" class="hide">
+			<legend>Options</legend>
+			<input id="cb-toggle-empty-rows" type="checkbox">
+			<label for="cb-toggle-empty-rows">show empty rows</label>
+		</fieldset>
 	</div>
 </body>
 
