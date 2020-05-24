@@ -6,7 +6,7 @@
 #author
 {
 	position: absolute;
-	top: 35px;
+	top: 25px;
 	left: 50px;
 }
 
@@ -14,15 +14,9 @@
 {
 	position: absolute;
 	left: 0;
-	right: 70%;
-	top: 70px;
+	right: 75%;
+	top: 60px;
 	bottom: 0;
-}
-
-#import-csv
-{
-	position: relative;
-	height: 40px;
 }
 
 #module-list
@@ -36,10 +30,15 @@
 #schedule-wrapper
 {
 	position: absolute;
-	left: 30%;
+	left: 25%;
 	right: 0;
 	top: 0;
 	bottom: 0;
+}
+
+#schedule th, td
+{
+	width: 16.6%;
 }
 
 #schedule-options
@@ -53,7 +52,7 @@ body
 	width: 100%;
 	padding: 0;
 	margin: 0;
-	overflow: hidden;
+	overflow: auto;
 }
 
 table
