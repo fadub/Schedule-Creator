@@ -458,14 +458,14 @@ function clearList() {
 }
 
 
-function toggleEntryInModule(moduleName, type, shortName, enable) {
+function toggleEntryInModule(moduleName, type, id, enable) {
 	for(let i = 0; i < modules.length; ++i) {
 		let module = modules[i];
 		if(module.name === moduleName) {
 			if(type === "lecture") {
 				for(let j = 0; j < module.lTimes.length; ++j) {
 					lTime = module.lTimes[j];
-					if(lTime.shortName === shortName) {
+					if(lTime.id === id) {
 						lTime.enable = Number(enable);
 						return;
 					}
@@ -473,7 +473,7 @@ function toggleEntryInModule(moduleName, type, shortName, enable) {
 			} else if (type === "exercise") {
 				for(let j = 0; j < module.eTimes.length; ++j) {
 					eTime = module.eTimes[j];
-					if(eTime.shortName === shortName) {
+					if(eTime.id === id) {
 						eTime.enable = Number(enable);
 						return;
 					}
@@ -481,7 +481,7 @@ function toggleEntryInModule(moduleName, type, shortName, enable) {
 			} else if(type === "practical") {
 				for(let j = 0; j < module.pTimes.length; ++j) {
 					pTime = module.pTimes[j];
-					if(pTime.shortName === shortName) {
+					if(pTime.id === id) {
 						pTime.enable = Number(enable);
 						return;
 					}
