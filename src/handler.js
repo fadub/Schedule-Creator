@@ -27,6 +27,7 @@ function checkboxHandler(event) {
 	let cb = event.target;
 	let name = cb.id;	// it is a name, because the entry can span over multiple cells and by that results in grouped by name elements
 	let moduleName = cb.getAttribute("entryModule");
+	let shortName = cb.getAttribute("entryShortName");
 	let type = cb.getAttribute("entryType");
 	let displayName = cb.getAttribute("entryDisplayName");
 	let color = cb.getAttribute("entryColor");
@@ -36,10 +37,10 @@ function checkboxHandler(event) {
 	
 	if(cb.checked) {
 		addEntryToSchedule(name, displayName, color, day, tFrom, tTo);
-		toggleEntryInModule(moduleName, type, day, tFrom, cb.checked);
+		toggleEntryInModule(moduleName, type, shortName, cb.checked);
 	} else {
 		removeEntryFromSchedule(name);
-		toggleEntryInModule(moduleName, type, day, tFrom, cb.checked);
+		toggleEntryInModule(moduleName, type, shortName, cb.checked);
 	}
 }
 

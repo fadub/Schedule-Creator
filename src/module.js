@@ -115,7 +115,11 @@ function createModuleFromRaw(rawModule) {
 		pTimes: []
 	};
 	
+	let idCount, partCount;
+	
 	// lectures
+	idCount = 0;
+	partCount = 0;
 	for(let i = 0; (i+3) < rawModule.lectureTimes.length; i+=4) {
 		let plus = false;
 		if(rawModule.lectureTimes[i] === "+") {
@@ -146,8 +150,23 @@ function createModuleFromRaw(rawModule) {
 		if (tFrom >= tTo) {
 			throw(new Error("something wrong with your lecture times in '" + module.name + "'"));
 		}
-	
+		
+		
+		if(plus) {
+			++partCount;
+		} else {
+			++idCount;
+			partCount = 1;
+		}
+		
+		let displayName = module.name + "-" + LECTURE_PREFIX + idCount;
+		let id = displayName + partCount;
+		let shortName = LECTURE_PREFIX + idCount;
+		
 		module.lTimes.push({
+			id: id,
+			displayName: displayName,
+			shortName: shortName, 
 			day: dayNum,
 			tFrom: tFrom,
 			tTo: tTo,
@@ -158,6 +177,8 @@ function createModuleFromRaw(rawModule) {
 	
 	
 	// exercise
+	idCount = 0;
+	partCount = 0;
 	for(let i = 0; (i+3) < rawModule.exerciseTimes.length; i+=4) {
 		let plus = false;
 		if(rawModule.exerciseTimes[i] === "+") {
@@ -188,8 +209,22 @@ function createModuleFromRaw(rawModule) {
 		if (tFrom >= tTo) {
 			throw(new Error("something wrong with your lecture times in '" + module.name + "'"));
 		}
+		
+		if(plus) {
+			++partCount;
+		} else {
+			++idCount;
+			partCount = 1;
+		}
+		
+		let displayName = module.name + "-" + EXERCISE_PREFIX + idCount;
+		let id = displayName + partCount;
+		let shortName = EXERCISE_PREFIX + idCount;
 	
 		module.eTimes.push({
+			id: id,
+			displayName: displayName,
+			shortName: shortName, 
 			day: dayNum,
 			tFrom: tFrom,
 			tTo: tTo,
@@ -200,6 +235,8 @@ function createModuleFromRaw(rawModule) {
 	
 	
 	// practicals
+	idCount = 0;
+	partCount = 0;
 	for(let i = 0; (i+3) < rawModule.practicalTimes.length; i+=4) {
 		let plus = false;
 		if(rawModule.practicalTimes[i] === "+") {
@@ -231,8 +268,22 @@ function createModuleFromRaw(rawModule) {
 		if (tFrom >= tTo) {
 			throw(new Error("something wrong with your practical times in " + module.name));
 		}
+		
+		if(plus) {
+			++partCount;
+		} else {
+			++idCount;
+			partCount = 1;
+		}
+		
+		let displayName = module.name + "-" + PRACTICAL_PREFIX + idCount;
+		let id = displayName + partCount;
+		let shortName = PRACTICAL_PREFIX + idCount;
 	
 		module.pTimes.push({
+			id: id,
+			displayName: displayName,
+			shortName: shortName, 
 			day: dayNum,
 			tFrom: tFrom,
 			tTo: tTo,
@@ -248,7 +299,6 @@ function createModuleFromRaw(rawModule) {
 function addModuleToList(module) {	
 	let list = document.getElementById("module-list");
 	let subList, subElm, subsubList;
-	let idCount, partCount;
 	
 	// module
 	let elm = document.createElement("li");
@@ -271,39 +321,27 @@ function addModuleToList(module) {
 	subList.appendChild(subsubList);
 	elm.appendChild(subList);
 	
-	idCount = 0;
-	partCount = 0;
 	for(let i = 0; i < module.lTimes.length; ++i) {
 		let time = module.lTimes[i];
-		
-		if(time.plus) {
-			++partCount;
-		} else {
-			++idCount;
-			partCount = 1;
-		}
-		
-		let entryDisplayName = module.name + "-" + LECTURE_PREFIX + idCount;
-		let entryId = entryDisplayName + partCount;
-		let shortName = LECTURE_PREFIX + idCount;
 		
 		let subsubElm = document.createElement("li");
 		
 		let cb = document.createElement("input");
-		cb.id = entryId;
+		cb.id = time.id;
 		cb.name = "event";
 		cb.type = "checkbox";
 		cb.addEventListener("input", checkboxHandler);
 		cb.setAttribute("entryType", "lecture");
 		cb.setAttribute("entryModule", module.name);
-		cb.setAttribute("entryDisplayName", entryDisplayName);
+		cb.setAttribute("entryDisplayName", time.displayName);
+		cb.setAttribute("entryShortName", time.shortName);
 		cb.setAttribute("entryColor", module.color);
 		cb.setAttribute("entryDay", time.day);
 		cb.setAttribute("entryFrom", time.tFrom);
 		cb.setAttribute("entryTo", time.tTo);
 		let label = document.createElement("label");
-		label.htmlFor = entryId;
-		label.textContent = shortName + " ; " + dayNumToText(time.day) + "-" + time.tFrom + "-" + time.tTo;
+		label.htmlFor = time.id;
+		label.textContent = time.shortName + " ; " + dayNumToText(time.day) + "-" + time.tFrom + "-" + time.tTo;
 		
 		subsubElm.appendChild(cb);
 		subsubElm.appendChild(label);
@@ -311,7 +349,7 @@ function addModuleToList(module) {
 		
 		if(time.enable) {
 			cb.checked = true;
-			addEntryToSchedule(entryId, entryDisplayName, module.color, time.day, time.tFrom, time.tTo);
+			addEntryToSchedule(time.id, time.displayName, module.color, time.day, time.tFrom, time.tTo);
 		}
 	}
 	
@@ -326,39 +364,27 @@ function addModuleToList(module) {
 	subList.appendChild(subsubList);
 	elm.appendChild(subList);
 	
-	idCount = 0;
-	partCount = 0;
 	for(let i = 0; i < module.eTimes.length; ++i) {
 		let time = module.eTimes[i];
-		
-		if(time.plus) {
-			++partCount;
-		} else {
-			++idCount;
-			partCount = 1;
-		}
-		
-		let entryDisplayName = module.name + "-" + EXERCISE_PREFIX + idCount;
-		let entryId = entryDisplayName + partCount;
-		let shortName = EXERCISE_PREFIX + idCount;
 		
 		let subsubElm = document.createElement("li");
 		
 		let cb = document.createElement("input");
-		cb.id = entryId;
+		cb.id = time.id;
 		cb.name = "event";
 		cb.type = "checkbox";
 		cb.addEventListener("input", checkboxHandler);
 		cb.setAttribute("entryType", "exercise");
 		cb.setAttribute("entryModule", module.name);
-		cb.setAttribute("entryDisplayName", entryDisplayName);
+		cb.setAttribute("entryDisplayName", time.displayName);
+		cb.setAttribute("entryShortName", time.shortName);
 		cb.setAttribute("entryColor", module.color);
 		cb.setAttribute("entryDay", time.day);
 		cb.setAttribute("entryFrom", time.tFrom);
 		cb.setAttribute("entryTo", time.tTo);
 		let label = document.createElement("label");
-		label.htmlFor = module.name;
-		label.textContent = shortName + " ; " + dayNumToText(time.day) + "-" + time.tFrom + "-" + time.tTo;
+		label.htmlFor = time.id;
+		label.textContent = time.shortName + " ; " + dayNumToText(time.day) + "-" + time.tFrom + "-" + time.tTo;
 		
 		subsubElm.appendChild(cb);
 		subsubElm.appendChild(label);
@@ -366,7 +392,7 @@ function addModuleToList(module) {
 		
 		if(time.enable) {
 			cb.checked = true;
-			addEntryToSchedule(entryId, entryDisplayName, module.color, time.day, time.tFrom, time.tTo);
+			addEntryToSchedule(time.id, time.displayName, module.color, time.day, time.tFrom, time.tTo);
 		}
 	}
 	
@@ -381,39 +407,27 @@ function addModuleToList(module) {
 	subList.appendChild(subsubList);
 	elm.appendChild(subList);
 	
-	idCount = 0;
-	partCount = 0;
 	for(let i = 0; i < module.pTimes.length; ++i) {
 		let time = module.pTimes[i];
-		
-		if(time.plus) {
-			++partCount;
-		} else {
-			++idCount;
-			partCount = 1;
-		}
-		
-		let entryDisplayName = module.name + "-" + PRACTICAL_PREFIX + idCount;
-		let entryId = entryDisplayName + partCount;
-		let shortName = PRACTICAL_PREFIX + idCount;
 		
 		let subsubElm = document.createElement("li");
 		
 		let cb = document.createElement("input");
-		cb.id = entryId;
+		cb.id = time.id;
 		cb.name = "event";
 		cb.type = "checkbox";
 		cb.addEventListener("input", checkboxHandler);
 		cb.setAttribute("entryType", "practical");
 		cb.setAttribute("entryModule", module.name);
-		cb.setAttribute("entryDisplayName", entryDisplayName);
+		cb.setAttribute("entryDisplayName", time.displayName);
+		cb.setAttribute("entryShortName", time.shortName);
 		cb.setAttribute("entryColor", module.color);
 		cb.setAttribute("entryDay", time.day);
 		cb.setAttribute("entryFrom", time.tFrom);
 		cb.setAttribute("entryTo", time.tTo);
 		let label = document.createElement("label");
-		label.htmlFor = module.name;
-		label.textContent = shortName + " ; " + dayNumToText(time.day) + "-" + time.tFrom + "-" + time.tTo;
+		label.htmlFor = time.id;
+		label.textContent = time.shortName + " ; " + dayNumToText(time.day) + "-" + time.tFrom + "-" + time.tTo;
 		
 		subsubElm.appendChild(cb);
 		subsubElm.appendChild(label);
@@ -421,7 +435,7 @@ function addModuleToList(module) {
 		
 		if(time.enable) {
 			cb.checked = true;
-			addEntryToSchedule(entryId, entryDisplayName, module.color, time.day, time.tFrom, time.tTo);
+			addEntryToSchedule(time.id, time.displayName, module.color, time.day, time.tFrom, time.tTo);
 		}
 	}
 
@@ -440,31 +454,26 @@ function updateUIwithModuleList(modules) {
 
 function clearList() {
 	let list = document.getElementById("module-list");
-	let children = list.childNodes;
-	for(let i = 0; i < children.length; ++i) {
-		let child = children[i];
-		child.parentNode.removeChild(child);
-	}
+	removeChildren(list);
 }
 
 
-function toggleEntryInModule(moduleName, type, day, tFrom, enable) {
+function toggleEntryInModule(moduleName, type, shortName, enable) {
 	for(let i = 0; i < modules.length; ++i) {
 		let module = modules[i];
 		if(module.name === moduleName) {
 			if(type === "lecture") {
 				for(let j = 0; j < module.lTimes.length; ++j) {
 					lTime = module.lTimes[j];
-					if((lTime.day === day) && (lTime.tFrom === tFrom)) {
+					if(lTime.shortName === shortName) {
 						lTime.enable = Number(enable);
-						console.log(module.lTimes[j].enable);
 						return;
 					}
 				}
 			} else if (type === "exercise") {
 				for(let j = 0; j < module.eTimes.length; ++j) {
 					eTime = module.eTimes[j];
-					if((eTime.day === day) && (eTime.tFrom === tFrom)) {
+					if(eTime.shortName === shortName) {
 						eTime.enable = Number(enable);
 						return;
 					}
@@ -472,7 +481,7 @@ function toggleEntryInModule(moduleName, type, day, tFrom, enable) {
 			} else if(type === "practical") {
 				for(let j = 0; j < module.pTimes.length; ++j) {
 					pTime = module.pTimes[j];
-					if((pTime.day === day) && (pTime.tFrom === tFrom)) {
+					if(pTime.shortName === shortName) {
 						pTime.enable = Number(enable);
 						return;
 					}

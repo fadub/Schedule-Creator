@@ -40,3 +40,19 @@ function exportToCsv(csv) {
 	downloadLink.download = "my_schedule.csv";
 	downloadLink.click();
 }
+
+
+function removeChildren(elm, indexFrom) {
+	let length = elm.children.length;
+	
+	if(indexFrom === undefined) {
+		indexFrom = 0;
+	} else if (indexFrom >= length) {
+		return;
+	}
+	
+	for(let i = 0; i < (length-indexFrom); ++i) {
+		let child = elm.children[indexFrom];
+		child.parentNode.removeChild(child);
+	}
+}

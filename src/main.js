@@ -35,6 +35,7 @@ function initializeComponents() {
 		// fileSelect
 		fileSelect = document.getElementById("file-select");
 		fileSelect.addEventListener("change", (event) => {
+			
 			importCSVhandler(event.target.files[0], (csvRaw) => {
 				modules = csvToModules(csvRaw);
 				updateUIwithModuleList(modules);

@@ -10,16 +10,9 @@
 function initSchedule() {
 	for(let i = 0; i < 23; ++i) {
 		let name = "r" + i + "-wd";
-		let time;
-		if(i < 9) {
-			time = "0" + i + ":00 - 0" + (i+1) + ":00";
-		} else if (i === 9) {
-			time = "0" + i + ":00 - " + (i+1) + ":00";
-		} else {
-			time = i + ":00 - " + (i+1) + ":00";
-		}
 		
 		let row = document.getElementById("r" + i);
+		removeChildren(row, 1);
 		
 		for(let j = 1; j < 6; ++j) {
 			let cell = document.createElement("th");
