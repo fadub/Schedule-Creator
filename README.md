@@ -23,6 +23,7 @@ Use the checkboxes on the left to select/unselect events
 ![image of module list](img/selection.PNG)
 
 ### Save schedule
+Save your schedule for later use
 ![image of save button](img/save.PNG)
 
 ## Create schedule options file
