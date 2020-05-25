@@ -32,3 +32,11 @@ function toggleElm(id, show) {
 		elm.classList.add("hide");
 	}
 }
+
+
+function exportToCsv(csv) {
+	let downloadLink = document.createElement("a");
+	downloadLink.href = "data:text/csv;charset=utf-8," + encodeURIComponent(csv);
+	downloadLink.download = "my_schedule.csv";
+	downloadLink.click();
+}

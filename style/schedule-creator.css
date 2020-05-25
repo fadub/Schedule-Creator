@@ -73,6 +73,11 @@ th
 	background-color: #e1e7e8;
 }
 
+button
+{
+	padding: 5px;
+}
+
 .bgc-white
 {
 	background-color: white;
@@ -86,4 +91,9 @@ th
 .hide
 {
 	display: none;
+}
+
+.options-right
+{
+	float: right;
 }
