@@ -22,24 +22,24 @@ function createCSVfromModuleList() {
 		if(module.lTimes.length > 0) csv = csv + "," + "lecture";
 		for(let j = 0; j < module.lTimes.length; ++j) {
 			lTime = module.lTimes[j];
-			csv = csv + "," + dayNumToText(lTime.day) + "," + lTime.tFrom + "," + lTime.tTo + "," + lTime.enable;
 			if(lTime.plus) csv = csv + ",+";
+			csv = csv + "," + dayNumToText(lTime.day) + "," + lTime.tFrom + "," + lTime.tTo + "," + lTime.enable;
 		}
 		
 		//exercise
 		if(module.eTimes.length > 0) csv = csv + "," + "exercise";
 		for(let j = 0; j < module.eTimes.length; ++j) {
 			eTime = module.eTimes[j];
-			csv = csv + "," + dayNumToText(eTime.day) + "," + eTime.tFrom + "," + eTime.tTo + "," + eTime.enable;
 			if(eTime.plus) csv = csv + ",+";
+			csv = csv + "," + dayNumToText(eTime.day) + "," + eTime.tFrom + "," + eTime.tTo + "," + eTime.enable;
 		}
 		
 		//practical
 		if(module.pTimes.length > 0) csv = csv + "," + "practical";
 		for(let j = 0; j < module.pTimes.length; ++j) {
 			pTime = module.pTimes[j];
-			csv = csv + "," + dayNumToText(pTime.day) + "," + pTime.tFrom + "," + pTime.tTo + "," + pTime.enable;
 			if(pTime.plus) csv = csv + ",+";
+			csv = csv + "," + dayNumToText(pTime.day) + "," + pTime.tFrom + "," + pTime.tTo + "," + pTime.enable;
 		}
 		
 		csv = csv + "\r\n";
@@ -272,15 +272,15 @@ function addModuleToList(module) {
 	elm.appendChild(subList);
 	
 	idCount = 0;
-	partCount = 1;
+	partCount = 0;
 	for(let i = 0; i < module.lTimes.length; ++i) {
 		let time = module.lTimes[i];
 		
-		if(!time.plus) {
+		if(time.plus) {
+			++partCount;
+		} else {
 			++idCount;
 			partCount = 1;
-		} else {
-			++partCount;
 		}
 		
 		let entryDisplayName = module.name + "-" + LECTURE_PREFIX + idCount;
@@ -327,14 +327,15 @@ function addModuleToList(module) {
 	elm.appendChild(subList);
 	
 	idCount = 0;
-	partCount = 1;
+	partCount = 0;
 	for(let i = 0; i < module.eTimes.length; ++i) {
 		let time = module.eTimes[i];
 		
-		if(!time.plus) {
-			++idCount;
-		}else {
+		if(time.plus) {
 			++partCount;
+		} else {
+			++idCount;
+			partCount = 1;
 		}
 		
 		let entryDisplayName = module.name + "-" + EXERCISE_PREFIX + idCount;
@@ -381,14 +382,15 @@ function addModuleToList(module) {
 	elm.appendChild(subList);
 	
 	idCount = 0;
-	partCount = 1;
+	partCount = 0;
 	for(let i = 0; i < module.pTimes.length; ++i) {
 		let time = module.pTimes[i];
 		
-		if(!time.plus) {
-			++idCount;
-		} else {
+		if(time.plus) {
 			++partCount;
+		} else {
+			++idCount;
+			partCount = 1;
 		}
 		
 		let entryDisplayName = module.name + "-" + PRACTICAL_PREFIX + idCount;
