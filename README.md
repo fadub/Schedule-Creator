@@ -35,11 +35,11 @@ each line represents a module
 
 ```<NAME>, <COLOR>, lecture, [(<mo|tu|we|th|fr>, <0-23>, <0-23>, <0|1>), (...)], exercise, [(<mo|tu|we|th|fr>, <0-23>, <0-23>, <0|1>), (...)], practical, [(<mo|tu|we|th|fr>, <0-23>, <0-23>, <0|1>), (...)]```
 
-`<NAME>` name of the course
-`<COLOR>` color to use in the schedule
-`<mo|tu|we|th|fr>` day an event of the course happens
-`<0-23>` start/end date
-`<0|1>` show/hide in schedule
+* `<NAME>` name of the course
+* `<COLOR>` color to use in the schedule
+* `<mo|tu|we|th|fr>` day an event of the course happens
+* `<0-23>` start/end date
+* `<0|1>` show/hide in schedule
 
 ### Non-continous events
 If an event is not continuous and by that has multiple occurrences, use the `+` operator. E.g.:
