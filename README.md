@@ -1,3 +1,20 @@
+# About project
+### Quality: **OK**
+### Year of creation: 2020
+
+## Scale of quality
+**professional**
+maintainable, scalable and performing -> well thought out architecture, clean structure, complete documentation
+
+**prototyping**
+maintainable and scalable to a certain extent -> rough architecture, clean structure, readable
+
+**OK**
+maintainable -> clean structure, readable
+
+**hacky**
+just good enough to run
+
 # Schedule-Creator
 Making (HSR) schedule creation easier for students
 
