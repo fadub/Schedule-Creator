@@ -61,7 +61,7 @@ each line represents a module
 ### Non-continous events
 If an event is not continuous and by that has multiple occurrences, use the `+` operator. E.g.:
 
-```MyModule, green, lecture, mo, 8, 10, +, we, 13, 14```
+```MyModule, green, lecture, mo, 8, 10, 0 +, we, 13, 14, 0```
 
 ### Complete example
 ```
