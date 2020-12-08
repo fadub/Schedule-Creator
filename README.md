@@ -54,14 +54,14 @@ each line represents a module
 
 * `<NAME>` name of the course
 * `<COLOR>` color to use in the schedule
-* `<mo|tu|we|th|fr>` day an event of the course happens
-* `<0-23>` start/end date
+* `<mo|tu|we|th|fr>` week day of an event
+* `<0-23>` start/end time
 * `<0|1>` show/hide in schedule
 
 ### Non-continous events
 If an event is not continuous and by that has multiple occurrences, use the `+` operator. E.g.:
 
-```MyModule, green, lecture, mo, 8, 10, 0 +, we, 13, 14, 0```
+```MyModule, green, lecture, mo, 8, 10, 0, +, we, 13, 14, 0```
 
 ### Complete example
 ```
