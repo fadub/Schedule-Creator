@@ -64,16 +64,23 @@ function csvToModules(csvRaw) {
 			};
 			
 			let line = lines[i];
+			
+			// error detection
 			if(line === "") continue;
-			
 			let values = line.split(",");
+			trimStringArray(values);	
+			values = cutTrailingCommas(values);
+			if (!isCsvLineValid(values)) {
+				throw new Error("something wrong with the CSV: invalid module");
+			}
 			
-			rawModule.name = values[0].trim(); // first value = name
-			rawModule.color = values[1].trim(); // second value = color
+			// first step of parsing
+			rawModule.name = values[0]; // first value = name
+			rawModule.color = values[1]; // second value = color
 			let state = "";
 			let plus = false;
 			for(let j = 2; j < values.length; ++j) {
-				let value = values[j].trim();
+				let value = values[j];
 				if(value === "lecture" || value === "exercise" || value === "practical") { // state selection
 					state = value;
 					continue;
@@ -91,10 +98,11 @@ function csvToModules(csvRaw) {
 					if(plus) { rawModule.practicalTimes.push("+"); plus = false;}
 					rawModule.practicalTimes.push(value);
 				} else {
-					throw(new Error("something wrong with the CSV"));
+					throw(new Error("something wrong with the CSV: event type not recognized"));
 				}
 			}
 			
+			// second step of parsing
 			let module = createModuleFromRaw(rawModule);
 			modules.push(module);
 		}

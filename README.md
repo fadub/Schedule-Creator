@@ -27,7 +27,7 @@ Making (HSR) schedule creation easier for students
 4. import a schedule options CSV file (e.g. 'semester3.csv')
 
 **Please note:**
-This web app was only tested with Firefox and does not support small screens like smartphones.
+This web app was only tested with Firefox and Chrome and does not support small screens like smartphones.
 For the best experience use it on a desktop-computer or laptop in a maximized browser window.
 
 ## Import a schedule options file

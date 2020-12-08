@@ -56,3 +56,46 @@ function removeChildren(elm, indexFrom) {
 		child.parentNode.removeChild(child);
 	}
 }
+
+
+function trimStringArray(arr) {
+	for(let i = 0; i < arr.length; i++) {
+		arr[i] = arr[i].trim();
+	}
+}
+
+
+function isColor(strColor){
+  let s = new Option().style;
+  s.color = strColor;
+  return s.color == strColor;
+}
+
+
+function cutTrailingCommas(splitValues) {
+	let i;
+	for(i = 0; i < splitValues.length; i++) {
+		if(splitValues[i] === "") {
+			break;
+		}
+	}
+	
+	if(i < splitValues.length) {
+		return splitValues.slice(0,i);
+	} else {
+		return splitValues;
+	}
+}
+
+
+function isCsvLineValid(csvValues) {
+	// check name and color
+	let name = csvValues[0];
+	let color = csvValues[1];
+	
+	if(name === "" || color === "" || !isColor(color)) {
+		return false;
+	} else {
+		return true;
+	}
+}
