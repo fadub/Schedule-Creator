@@ -22,6 +22,7 @@ let modules = undefined;
 let fileSelect = undefined;
 let cbToggleEmptyRows = undefined;
 let btnSave = undefined;
+let spanVersion = undefined
 
 
 /*----------------------------------------------------------------------------*/
